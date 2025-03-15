@@ -2,9 +2,10 @@
 
 namespace Architecture\Application\Task\Dto;
 
+use DtoInterface;
 use Exception;
 
-class TaskInputDto
+class TaskInputDto implements DtoInterface
 {
     public function __construct(protected string $title)
     { }
@@ -18,7 +19,7 @@ class TaskInputDto
         return new self($data['title']);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return ['title' => $this->title];
     }
