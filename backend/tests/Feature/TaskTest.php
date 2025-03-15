@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Task;
+namespace Tests\Feature;
 
 use Architecture\Application\Task\TaskStatus;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

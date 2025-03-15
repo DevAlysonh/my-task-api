@@ -2,8 +2,7 @@
 
 namespace Architecture\Infrastructure\Repository;
 
-use DtoInterface;
-use Illuminate\Database\Eloquent\Model;
+use Architecture\Application\Task\Dto\DtoInterface;
 use RepositoryInterface;
 
 class Repository implements RepositoryInterface

@@ -2,7 +2,6 @@
 
 namespace Architecture\Application\Task\Dto;
 
-use DtoInterface;
 use Exception;
 
 class TaskInputDto implements DtoInterface
