@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Http\Controllers\Task;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class TaskController extends Controller
+{
+    public function store(Request $request)
+    {
+        return response()->json([], 204);
+    }
+}
