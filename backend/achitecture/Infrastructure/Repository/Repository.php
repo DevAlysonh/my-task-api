@@ -3,7 +3,6 @@
 namespace Architecture\Infrastructure\Repository;
 
 use Architecture\Application\Task\Dto\DtoInterface;
-use RepositoryInterface;
 
 class Repository implements RepositoryInterface
 {

@@ -2,9 +2,9 @@
 
 namespace Architecture\Application\Task;
 
-use App\Models\Task\Task;
+use App\Models\Task;
 use Architecture\Application\Task\Dto\TaskInputDto;
-use Illuminate\Cache\Repository;
+use Architecture\Infrastructure\Repository\Repository;
 
 class TaskService
 {
@@ -13,6 +13,7 @@ class TaskService
 
     public function create(TaskInputDto $task): Task
     {
-        return Task::create($task->toArray());       
+        $this->repository->setCollectionName('task');
+        return $this->repository->create($task);       
     }
 }
