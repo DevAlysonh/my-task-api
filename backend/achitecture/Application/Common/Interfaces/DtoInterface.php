@@ -1,6 +1,5 @@
 <?php
-
-namespace Architecture\Application\Task\Dto;
+namespace Architecture\Application\Common\Interfaces;
 
 interface DtoInterface
 {

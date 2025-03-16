@@ -1,7 +1,7 @@
 <?php
 namespace Architecture\Infrastructure\Repository;
 
-use Architecture\Application\Task\Dto\DtoInterface;
+use Architecture\Application\Common\Interfaces\DtoInterface;
 
 interface RepositoryInterface
 {
