@@ -26,4 +26,9 @@ class EloquentRepositoryStrategy implements RepositoryInterface
     {
         return $this->model::create($dto->toArray());
     }
+
+    public function update(DtoInterface $dto): bool
+    {
+        return $this->model->update($dto->toArray());
+    }
 }
