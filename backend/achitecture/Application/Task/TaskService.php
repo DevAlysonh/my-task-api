@@ -26,7 +26,7 @@ class TaskService
 
     public function update(Task $task, TaskUpdateDto $updateData): bool
     {
-        if (! auth()->user()->can('update', $task)) {
+        if (!auth()->user()->can('update', $task)) {
             throw new UnauthorizedException('Unauthorized');
         }
 

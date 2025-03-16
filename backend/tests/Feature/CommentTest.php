@@ -7,6 +7,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
+use Illuminate\Validation\UnauthorizedException;
 use Tests\TestCase;
 
 class CommentTest extends TestCase
@@ -48,5 +49,20 @@ class CommentTest extends TestCase
 
         $response = $this->actingAs($this->user)->delete("/api/comments/{$comment->id}");
         $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
+
+    public function test_UserCannotDeleteACommentFromAnotherUser(): void
+    {
+        $this->withoutExceptionHandling();
+        $this->expectException(UnauthorizedException::class);
+        $this->expectExceptionMessage('Unauthorized');
+
+        $comment = Comment::factory()->create([
+            'task_id' => $this->task->id,
+            'user_id' => $this->user->id
+        ]);
+
+        $this->actingAs(User::factory()->createOne())
+            ->delete("/api/comments/{$comment->id}");
     }
 }
