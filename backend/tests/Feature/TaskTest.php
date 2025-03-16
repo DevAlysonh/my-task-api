@@ -30,13 +30,14 @@ class TaskTest extends TestCase
             'description' => 'Do something on this task as soon as a possible!'
         ];
 
-        $response = $this->actingAs($this->user)->post('/api/tasks', $arr);
+        $response = $this->actingAs($this->user)
+            ->post('/api/tasks', $arr);
 
         $response->assertStatus(Response::HTTP_CREATED);
         $this->assertNotEmpty($response->getData());
-        $this->assertEquals($response->getData()->data->title, $arr['title']);
-        $this->assertEquals($response->getData()->data->description, $arr['description']);
-        $this->assertEquals($response->getData()->data->status, TaskStatus::PENDING->value);
+        $this->assertEquals($response->getData()->title, $arr['title']);
+        $this->assertEquals($response->getData()->description, $arr['description']);
+        $this->assertEquals($response->getData()->status, TaskStatus::PENDING->value);
     }
 
     public function test_UsersShouldCanUpdateATask(): void
@@ -47,25 +48,28 @@ class TaskTest extends TestCase
             'status' => 'completed'
         ];
 
-        $response = $this->patch("/api/tasks/{$this->task->id}", $arr);
+        $response = $this->actingAs($this->user)
+            ->patch("/api/tasks/{$this->task->id}", $arr);
 
         $response->assertStatus(Response::HTTP_OK);
         $this->assertNotEmpty($response->getData());
-        $this->assertEquals($response->getData()->data->title, $arr['title']);
-        $this->assertEquals($response->getData()->data->description, $arr['description']);
-        $this->assertEquals($response->getData()->data->status, TaskStatus::COMPLETED->value);
+        $this->assertEquals($response->getData()->title, $arr['title']);
+        $this->assertEquals($response->getData()->description, $arr['description']);
+        $this->assertEquals($response->getData()->status, TaskStatus::COMPLETED->value);
     }
 
     public function test_UsersCanGetASpecifcTask(): void
     {
-        $response = $this->get("/api/tasks/{$this->task->id}");
+        $response = $this->actingAs($this->user)
+            ->get("/api/tasks/{$this->task->id}");
 
         $response->assertStatus(Response::HTTP_OK);
     }
 
     public function test_UsersCanDeleteATask(): void
     {
-        $response = $this->delete("/api/tasks/{$this->task->id}");
+        $response = $this->actingAs($this->user)
+            ->delete("/api/tasks/{$this->task->id}");
 
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
