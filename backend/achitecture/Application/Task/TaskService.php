@@ -8,6 +8,7 @@ use Architecture\Application\Task\Dto\TaskUpdateDto;
 use Architecture\Infrastructure\Repository\Repository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Validation\UnauthorizedException;
 
 class TaskService
 {
@@ -25,11 +26,19 @@ class TaskService
 
     public function update(Task $task, TaskUpdateDto $updateData): bool
     {
+        if (! auth()->user()->can('update', $task)) {
+            throw new UnauthorizedException('Unauthorized');
+        }
+
         return $this->repository->update((int)$task->id, $updateData);
     }
 
     public function delete(Task $task): bool
     {
+        if (! auth()->user()->can('update', $task)) {
+            throw new UnauthorizedException('Unauthorized');
+        }
+
         return $this->repository->delete((int)$task->id);
     }
 
