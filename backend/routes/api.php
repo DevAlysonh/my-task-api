@@ -7,4 +7,5 @@ Route::controller(TaskController::class)->group(function () {
     Route::post('tasks', 'store');
     Route::patch('tasks/{task}', 'update');
     Route::get('tasks/{task}', 'show');
+    Route::delete('tasks/{task}', 'destroy');
 });

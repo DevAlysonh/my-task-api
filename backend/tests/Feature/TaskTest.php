@@ -12,6 +12,14 @@ class TaskTest extends TestCase
 {
     use DatabaseTransactions;
 
+    protected Task $task;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->task = Task::factory()->createOne();
+    }
+
     public function test_UsersShouldCanCreateANewTask(): void
     {
         $arr = [
@@ -35,7 +43,7 @@ class TaskTest extends TestCase
             'status' => 'completed'
         ];
 
-        $response = $this->patch("/api/tasks/{$task->id}", $arr);
+        $response = $this->patch("/api/tasks/{$this->task->id}", $arr);
 
         $response->assertStatus(Response::HTTP_OK);
         $this->assertNotEmpty($response->getData());
@@ -45,10 +53,15 @@ class TaskTest extends TestCase
 
     public function test_UsersCanGetASpecifcTask(): void
     {
-        $task = Task::factory()->createOne();
-
-        $response = $this->get("/api/tasks/{$task->id}");
+        $response = $this->get("/api/tasks/{$this->task->id}");
 
         $response->assertStatus(Response::HTTP_OK);
+    }
+
+    public function test_UsersCanDeleteATask(): void
+    {
+        $response = $this->delete("/api/tasks/{$this->task->id}");
+
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 }

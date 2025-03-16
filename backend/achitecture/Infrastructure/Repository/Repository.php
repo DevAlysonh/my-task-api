@@ -25,4 +25,9 @@ class Repository implements RepositoryInterface
     {
         return $this->repository->update($original, $dto);
     }
+
+    public function delete(string $resourceId): bool
+    {
+        return $this->repository->delete($resourceId);
+    }
 }

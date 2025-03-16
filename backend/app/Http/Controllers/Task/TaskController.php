@@ -46,4 +46,11 @@ class TaskController extends Controller
             Response::HTTP_OK
         );
     }
+
+    public function destroy(Task $task)
+    {
+        $this->service->delete($task);
+
+        return response()->json([], Response::HTTP_NO_CONTENT);
+    }
 }
