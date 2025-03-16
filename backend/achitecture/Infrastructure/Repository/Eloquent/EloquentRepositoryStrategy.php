@@ -2,7 +2,7 @@
 
 namespace Architecture\Infrastructure\Repository\Eloquent;
 
-use Architecture\Application\Task\Dto\DtoInterface;
+use Architecture\Application\Common\Interfaces\DtoInterface;
 use Architecture\Infrastructure\Repository\RepositoryInterface;
 use Exception;
 use Illuminate\Database\Eloquent\Model;

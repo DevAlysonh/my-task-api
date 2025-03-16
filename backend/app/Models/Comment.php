@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Task extends Model
+class Comment extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'content',
         'user_id',
-        'title',
-        'description',
-        'status',
+        'task_id'
     ];
 
     public function user(): BelongsTo
@@ -23,8 +21,8 @@ class Task extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function comments(): HasMany
+    public function task(): BelongsTo
     {
-        return $this->hasMany(Comment::class, 'task_id', 'id');
+        return $this->belongsTo(Task::class, 'task_id', 'id');
     }
 }

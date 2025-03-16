@@ -8,23 +8,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
+            $table->text('content')->nullable(false);
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('title')->nullable(false);
-            $table->text('description')->nullable();
-            $table->enum('status', [
-                'pending',
-                'progress',
-                'completed',
-                'cancelled'
-            ])->default('pending');
+            $table->foreignId('task_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
-    
+
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('comments');
     }
 };

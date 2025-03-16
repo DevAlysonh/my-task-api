@@ -19,7 +19,10 @@ class TaskController extends Controller
 
     public function store(CreateTask $request)
     {
-        $task = TaskInputDto::fromArray($request->validated());
+        $data = $request->validated();
+        $data['user_id'] = auth()->user()->id;
+
+        $task = TaskInputDto::fromArray($data);
         $created = $this->service->create($task);
 
         return response()->json(

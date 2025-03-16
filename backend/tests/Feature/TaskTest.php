@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Task;
+use App\Models\User;
 use Architecture\Application\Task\TaskStatus;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
@@ -13,20 +14,24 @@ class TaskTest extends TestCase
     use DatabaseTransactions;
 
     protected Task $task;
+    protected User $user;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->task = Task::factory()->createOne();
+        $this->user = User::factory()->createOne();
     }
 
     public function test_UsersShouldCanCreateANewTask(): void
     {
+        // TODO: REFATORAR ESTE METODO PARA USAR O USUÁRIO AUTENTICADO NA SESSÃO AO CRIAR A TASK;
+        // ESSE REFACTORING DEVE SER FEITO NA BRANCH ONDE IREI IMPLEMENTAR A AUTENTICAÇÃO... 
         $arr = [
             'title' => 'Foo Bar',
         ];
 
-        $response = $this->post('/api/tasks', $arr);
+        $response = $this->actingAs($this->user)->post('/api/tasks', $arr);
 
         $response->assertStatus(Response::HTTP_CREATED);
         $this->assertNotEmpty($response->getData());
