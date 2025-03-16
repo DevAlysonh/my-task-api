@@ -5,7 +5,9 @@ namespace Architecture\Infrastructure\Repository\Eloquent;
 use Architecture\Application\Common\Interfaces\DtoInterface;
 use Architecture\Infrastructure\Repository\RepositoryInterface;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EloquentRepositoryStrategy implements RepositoryInterface
 {
@@ -35,5 +37,12 @@ class EloquentRepositoryStrategy implements RepositoryInterface
     public function delete(int $resourceId): bool
     {
         return $this->model::where('id', $resourceId)->delete();
+    }
+
+    public function findBySubquery(?int $perPage = null, callable $subquery): Collection|LengthAwarePaginator
+    {
+        return $perPage
+            ? $subquery($this->model)->paginate($perPage)
+            : $subquery($this->model)->get();
     }
 }

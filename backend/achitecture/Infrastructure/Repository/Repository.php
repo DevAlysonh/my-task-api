@@ -30,4 +30,9 @@ class Repository implements RepositoryInterface
     {
         return $this->repository->delete($resourceId);
     }
+
+    public function findBySubquery(?int $perPage = null, callable $subquery): object
+    {
+        return $this->repository->findBySubquery($perPage, $subquery);
+    }
 }

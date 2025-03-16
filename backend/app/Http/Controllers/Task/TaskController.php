@@ -20,6 +20,22 @@ class TaskController extends Controller
     ) {
     }
 
+    public function index()
+    {
+        $tasks = $this->service->findTasks(
+            request()->get('status'),
+            request()->get('created_at')
+        );
+
+        $code = $tasks->empty() ? Response::HTTP_NO_CONTENT : Response::HTTP_OK;
+
+        return response()->json([
+            'tasks' => TaskResource::collection($tasks),
+            'current_page' => $tasks->currentPage(),
+            'last_page' => $tasks->lastPage(), 
+        ], $code);
+    }
+
     public function store(CreateTask $request): JsonResponse
     {
         $task = TaskInputDto::fromArray($request->validated());
