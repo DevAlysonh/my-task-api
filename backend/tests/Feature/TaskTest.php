@@ -82,6 +82,20 @@ class TaskTest extends TestCase
             ->get("/api/tasks/{$this->task->id}");
 
         $response->assertStatus(Response::HTTP_OK);
+        $data = $response->getData();
+        $this->assertIsArray($data->comments);
+    }
+
+    public function test_UsersCanGetAllTasks(): void
+    {
+        $response = $this->actingAs($this->user)
+            ->get("/api/tasks/");
+
+        $response->assertStatus(Response::HTTP_OK);
+        $data = $response->getData();
+        $this->assertIsArray($data->tasks);
+        $this->assertObjectHasProperty('comments', $data->tasks[0]);
+        $this->assertIsArray($data->tasks[0]->comments);
     }
 
     public function test_UsersCanDeleteATask(): void

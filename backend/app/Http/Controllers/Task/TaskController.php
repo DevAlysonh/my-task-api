@@ -27,7 +27,7 @@ class TaskController extends Controller
             request()->get('created_at')
         );
 
-        $code = $tasks->empty() ? Response::HTTP_NO_CONTENT : Response::HTTP_OK;
+        $code = $tasks->count() ? Response::HTTP_OK : Response::HTTP_NO_CONTENT;
 
         return response()->json([
             'tasks' => TaskResource::collection($tasks),
@@ -50,7 +50,7 @@ class TaskController extends Controller
     public function show(Task $task): JsonResponse
     {
         return response()->json(
-            new TaskResource($task),
+            new TaskResource($task->load('comments')),
             Response::HTTP_OK
         );
     }
