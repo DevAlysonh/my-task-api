@@ -35,7 +35,7 @@ class TaskService
 
     public function delete(Task $task): bool
     {
-        if (! auth()->user()->can('update', $task)) {
+        if (! auth()->user()->can('delete', $task)) {
             throw new UnauthorizedException('Unauthorized');
         }
 
