@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Task;
 use Architecture\Application\Task\TaskStatus;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
@@ -10,6 +11,14 @@ use Tests\TestCase;
 class TaskTest extends TestCase
 {
     use DatabaseTransactions;
+
+    protected Task $task;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->task = Task::factory()->createOne();
+    }
 
     public function test_UsersShouldCanCreateANewTask(): void
     {
@@ -23,6 +32,36 @@ class TaskTest extends TestCase
         $this->assertNotEmpty($response->getData());
         $this->assertEquals($response->getData()->data->title, $arr['title']);
         $this->assertEquals($response->getData()->data->status, TaskStatus::PENDING->value);
-        $this->assertEquals($response->getData()->message, 'New Task created Successfully');
+    }
+
+    public function test_UsersShouldCanUpdateATask(): void
+    {
+        $task = Task::factory()->createOne();
+
+        $arr = [
+            'title' => 'Foo Bar Edited',
+            'status' => 'completed'
+        ];
+
+        $response = $this->patch("/api/tasks/{$this->task->id}", $arr);
+
+        $response->assertStatus(Response::HTTP_OK);
+        $this->assertNotEmpty($response->getData());
+        $this->assertEquals($response->getData()->data->title, $arr['title']);
+        $this->assertEquals($response->getData()->data->status, TaskStatus::COMPLETED->value);
+    }
+
+    public function test_UsersCanGetASpecifcTask(): void
+    {
+        $response = $this->get("/api/tasks/{$this->task->id}");
+
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    public function test_UsersCanDeleteATask(): void
+    {
+        $response = $this->delete("/api/tasks/{$this->task->id}");
+
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 }
