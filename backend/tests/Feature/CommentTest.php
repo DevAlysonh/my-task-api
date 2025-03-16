@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class CommentTest extends TestCase
@@ -28,7 +29,10 @@ class CommentTest extends TestCase
             'task_id' => $this->task->id
         ];
         $response = $this->actingAs($this->user)->post('/api/comments', $arr);
-
-        $response->assertStatus(201);
+        $data = $response->getData()->data;
+        $response->assertStatus(Response::HTTP_CREATED);
+        $this->assertEquals($data->user_id, $this->user->id);
+        $this->assertEquals($data->task_id, $this->task->id);
+        $this->assertEquals($data->content, $arr['content']);
     }
 }
