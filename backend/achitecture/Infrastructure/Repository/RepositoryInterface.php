@@ -9,4 +9,5 @@ interface RepositoryInterface
     public function create(DtoInterface $dto): object;
     public function update(int $resourceId, DtoInterface $dto): bool;
     public function delete(int $resourceId): bool;
+    public function findBySubquery(?int $perPage = null, callable $subquery): object;
 }

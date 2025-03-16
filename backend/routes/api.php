@@ -9,6 +9,7 @@ Route::middleware('auth:sanctum')->controller(TaskController::class)->group(func
     Route::post('tasks', 'store');
     Route::patch('tasks/{task}', 'update');
     Route::get('tasks/{task}', 'show');
+    Route::get('tasks/', 'index');
     Route::delete('tasks/{task}', 'destroy');
 });
 

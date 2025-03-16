@@ -5,6 +5,7 @@ namespace Architecture\Application\Comment;
 use App\Models\Comment;
 use Architecture\Application\Comment\Dto\CommentInputDto;
 use Architecture\Infrastructure\Repository\Repository;
+use Illuminate\Validation\UnauthorizedException;
 
 class CommentService
 {
@@ -21,6 +22,10 @@ class CommentService
 
     public function delete(Comment $comment): bool
     {
+        if (!auth()->user()->can('delete', $comment)) {
+            throw new UnauthorizedException('Unauthorized');
+        }
+
         return $this->repository->delete((int)$comment->id);
     }
 }
