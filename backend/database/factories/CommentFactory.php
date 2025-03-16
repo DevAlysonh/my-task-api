@@ -2,17 +2,18 @@
 
 namespace Database\Factories;
 
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TaskFactory extends Factory
+class CommentFactory extends Factory
 {
     public function definition(): array
     {
         return [
+            'content' => fake()->text(150),
             'user_id' => User::factory(),
-            'title' => fake()->sentence(4, false),
-            'description' => fake()->text(150),
+            'task_id' => Task::factory()
         ];
     }
 }
