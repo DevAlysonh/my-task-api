@@ -18,4 +18,9 @@ class CommentService
     {
         return $this->repository->create($comment);
     }
+
+    public function delete(Comment $comment)
+    {
+        return $this->repository->delete($comment->id);
+    }
 }

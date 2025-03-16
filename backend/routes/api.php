@@ -13,4 +13,5 @@ Route::controller(TaskController::class)->group(function () {
 
 Route::controller(CommentController::class)->group(function () {
     Route::post('comments', 'store');
+    Route::delete('comments/{comment}', 'destroy');
 });
