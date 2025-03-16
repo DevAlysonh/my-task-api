@@ -6,6 +6,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -31,6 +32,14 @@ return Application::configure(basePath: dirname(__DIR__))
                 return response()->json([
                     'error' => $e->getMessage()
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        });
+
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'error' => 'O recurso que você tentou acessar não foi localizado.'
+                ], Response::HTTP_NOT_FOUND);
             }
         });
 
