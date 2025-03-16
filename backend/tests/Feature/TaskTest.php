@@ -25,10 +25,9 @@ class TaskTest extends TestCase
 
     public function test_UsersShouldCanCreateANewTask(): void
     {
-        // TODO: REFATORAR ESTE METODO PARA USAR O USUÁRIO AUTENTICADO NA SESSÃO AO CRIAR A TASK;
-        // ESSE REFACTORING DEVE SER FEITO NA BRANCH ONDE IREI IMPLEMENTAR A AUTENTICAÇÃO... 
         $arr = [
             'title' => 'Foo Bar',
+            'description' => 'Do something on this task as soon as a possible!'
         ];
 
         $response = $this->actingAs($this->user)->post('/api/tasks', $arr);
@@ -36,15 +35,15 @@ class TaskTest extends TestCase
         $response->assertStatus(Response::HTTP_CREATED);
         $this->assertNotEmpty($response->getData());
         $this->assertEquals($response->getData()->data->title, $arr['title']);
+        $this->assertEquals($response->getData()->data->description, $arr['description']);
         $this->assertEquals($response->getData()->data->status, TaskStatus::PENDING->value);
     }
 
     public function test_UsersShouldCanUpdateATask(): void
     {
-        $task = Task::factory()->createOne();
-
         $arr = [
             'title' => 'Foo Bar Edited',
+            'description' => 'Another description now!',
             'status' => 'completed'
         ];
 
@@ -53,6 +52,7 @@ class TaskTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $this->assertNotEmpty($response->getData());
         $this->assertEquals($response->getData()->data->title, $arr['title']);
+        $this->assertEquals($response->getData()->data->description, $arr['description']);
         $this->assertEquals($response->getData()->data->status, TaskStatus::COMPLETED->value);
     }
 
