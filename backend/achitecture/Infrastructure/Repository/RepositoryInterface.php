@@ -7,5 +7,5 @@ interface RepositoryInterface
 {
     public function setCollectionName(string $collectionName): void;
     public function create(DtoInterface $dto): object;
-    public function update(DtoInterface $dto): bool;
+    public function update(object $original, DtoInterface $dto): bool;
 }

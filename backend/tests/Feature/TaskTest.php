@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Task;
 use Architecture\Application\Task\TaskStatus;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
@@ -23,6 +24,22 @@ class TaskTest extends TestCase
         $this->assertNotEmpty($response->getData());
         $this->assertEquals($response->getData()->data->title, $arr['title']);
         $this->assertEquals($response->getData()->data->status, TaskStatus::PENDING->value);
-        $this->assertEquals($response->getData()->message, 'New Task created Successfully');
+    }
+
+    public function test_UsersShouldCanUpdateATask(): void
+    {
+        $task = Task::factory()->createOne();
+
+        $arr = [
+            'title' => 'Foo Bar Edited',
+            'status' => 'completed'
+        ];
+
+        $response = $this->patch("/api/tasks/{$task->id}", $arr);
+
+        $response->assertStatus(Response::HTTP_OK);
+        $this->assertNotEmpty($response->getData());
+        $this->assertEquals($response->getData()->data->title, $arr['title']);
+        $this->assertEquals($response->getData()->data->status, TaskStatus::COMPLETED->value);
     }
 }

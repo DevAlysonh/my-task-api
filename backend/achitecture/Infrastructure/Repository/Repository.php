@@ -21,8 +21,8 @@ class Repository implements RepositoryInterface
         return $this->repository->create($dto);
     }
 
-    public function update(DtoInterface $dto): bool
+    public function update(object $original, DtoInterface $dto): bool
     {
-        return $this->repository->update($dto);
+        return $this->repository->update($original, $dto);
     }
 }

@@ -27,8 +27,12 @@ class EloquentRepositoryStrategy implements RepositoryInterface
         return $this->model::create($dto->toArray());
     }
 
-    public function update(DtoInterface $dto): bool
+    public function update(object $original, DtoInterface $dto): bool
     {
-        return $this->model->update($dto->toArray());
+        if(! $original instanceof Model) {
+            throw new Exception("You shoud give an instance of laravel's Model to update");
+        }
+
+        return $original->update($dto->toArray());
     }
 }
