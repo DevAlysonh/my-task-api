@@ -21,6 +21,6 @@ class CommentService
 
     public function delete(Comment $comment)
     {
-        return $this->repository->delete($comment->id);
+        return $this->repository->delete((int)$comment->id);
     }
 }
