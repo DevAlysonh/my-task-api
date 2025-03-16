@@ -26,4 +26,14 @@ class EloquentRepositoryStrategy implements RepositoryInterface
     {
         return $this->model::create($dto->toArray());
     }
+
+    public function update(int $resourceId, DtoInterface $dto): bool
+    {
+        return $this->model::where('id', $resourceId)->update($dto->toArray());
+    }
+
+    public function delete(int $resourceId): bool
+    {
+        return $this->model::where('id', $resourceId)->delete();
+    }
 }
