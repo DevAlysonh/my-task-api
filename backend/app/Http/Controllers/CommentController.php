@@ -7,6 +7,7 @@ use App\Http\Resources\Comment\CommentResource;
 use App\Models\Comment;
 use Architecture\Application\Comment\CommentService;
 use Architecture\Application\Comment\Dto\CommentInputDto;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class CommentController extends Controller
@@ -16,7 +17,7 @@ class CommentController extends Controller
     ) {
     }
 
-    public function store(CreateComment $request)
+    public function store(CreateComment $request): JsonResponse
     {
         $comment = CommentInputDto::fromArray($request->validated());
         $created = $this->service->create($comment);
@@ -27,7 +28,7 @@ class CommentController extends Controller
         );
     }
 
-    public function destroy(Comment $comment)
+    public function destroy(Comment $comment): JsonResponse
     {
         $this->service->delete($comment);
 
