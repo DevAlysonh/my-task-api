@@ -21,11 +21,11 @@ class TaskService
 
     public function update(Task $task, TaskUpdateDto $updateData): bool
     {
-        return $this->repository->update($task, $updateData);
+        return $this->repository->update((int)$task->id, $updateData);
     }
 
     public function delete(Task $task): bool
     {
-        return $this->repository->delete($task->id);
+        return $this->repository->delete((int)$task->id);
     }
 }
