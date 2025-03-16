@@ -28,6 +28,14 @@ class TaskController extends Controller
         );
     }
 
+    public function show(Task $task)
+    {
+        return response()->json(
+            new TaskResource($task),
+            Response::HTTP_OK
+        );
+    }
+
     public function update(UpdateTask $request, Task $task)
     {
         $updateData = TaskUpdateDto::fromArray($request->validated());

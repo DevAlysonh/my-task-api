@@ -42,4 +42,13 @@ class TaskTest extends TestCase
         $this->assertEquals($response->getData()->data->title, $arr['title']);
         $this->assertEquals($response->getData()->data->status, TaskStatus::COMPLETED->value);
     }
+
+    public function test_UsersCanGetASpecifcTask(): void
+    {
+        $task = Task::factory()->createOne();
+
+        $response = $this->get("/api/tasks/{$task->id}");
+
+        $response->assertStatus(Response::HTTP_OK);
+    }
 }
