@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
@@ -19,7 +20,7 @@ class AuthTest extends TestCase
             'password' => 'password',
         ]);
 
-        $response->assertStatus(200)
+        $response->assertStatus(Response::HTTP_OK)
                 ->assertJsonStructure(['token']);
     }
 
@@ -32,7 +33,7 @@ class AuthTest extends TestCase
             'password' => 'wrongpassword',
         ]);
 
-        $response->assertStatus(401)
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED)
                 ->assertJson(['message' => 'Credenciais Inválidas']);
     }
 
@@ -51,7 +52,7 @@ class AuthTest extends TestCase
             'Authorization' => "Bearer {$token}"
         ]);
 
-        $response->assertStatus(200)
+        $response->assertStatus(Response::HTTP_OK)
                 ->assertJson(['message' => 'Logout realizado com sucesso']);
     }
 
@@ -59,7 +60,7 @@ class AuthTest extends TestCase
     {
         $response = $this->deleteJson('/api/logout');
 
-        $response->assertStatus(401)
-                ->assertJson(['message' => 'Unauthenticated.']);
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED)
+                ->assertJson(['error' => 'Unauthenticated.']);
     }
 }

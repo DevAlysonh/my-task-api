@@ -15,14 +15,15 @@ class CreateComment extends FormRequest
     {
         return [
             'content' => ['required', 'string', 'max:500'],
-            'task_id' => ['required', 'int']
+            'task_id' => ['required', 'int', 'exists:tasks,id']
         ];
     }
 
     public function messages()
     {
         return [
-            '*.required' => "Este campo é obrigatório"
+            '*.required' => "Este campo é obrigatório",
+            'task.exists' => "A tarefa que você está tentando comentar não existe ou foi excluida."
         ];
     }
 }
