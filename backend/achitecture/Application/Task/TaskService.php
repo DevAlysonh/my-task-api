@@ -11,7 +11,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class TaskService
 {
-    public const RESOURCES_PER_PAGE = 10;
+    public const RESOURCES_PER_PAGE = 5;
 
     public function __construct(protected Repository $repository)
     { 
@@ -37,7 +37,7 @@ class TaskService
         ?string $status = null,
         ?string $createdAt = null
     ): Collection|LengthAwarePaginator {
-        return $this->repository->findBySubquery(1, function ($query) use ($status, $createdAt) {
+        return $this->repository->findBySubquery(SELF::RESOURCES_PER_PAGE, function ($query) use ($status, $createdAt) {
             return $query->select(
                     'id',
                     'user_id',
