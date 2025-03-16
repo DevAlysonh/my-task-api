@@ -14,15 +14,14 @@ use Illuminate\Http\Response;
 
 class TaskController extends Controller
 {
-    public function __construct(protected TaskService $service)
-    { }
+    public function __construct(
+        protected TaskService $service
+    ) {
+    }
 
     public function store(CreateTask $request)
     {
-        $data = $request->validated();
-        $data['user_id'] = auth()->user()->id;
-
-        $task = TaskInputDto::fromArray($data);
+        $task = TaskInputDto::fromArray($request->validated());
         $created = $this->service->create($task);
 
         return response()->json(

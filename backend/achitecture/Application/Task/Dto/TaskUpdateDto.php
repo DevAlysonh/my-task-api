@@ -3,32 +3,34 @@
 namespace Architecture\Application\Task\Dto;
 
 use Architecture\Application\Common\Interfaces\DtoInterface;
-use Exception;
+use Architecture\Application\Task\TaskStatus;
+use Architecture\Domain\Task\ValueObjects\Description;
+use Architecture\Domain\Task\ValueObjects\Title;
 
 class TaskUpdateDto implements DtoInterface
 {
     public function __construct(
-        protected string $title,
-        protected string $status
+        protected Title $title,
+        protected Description $description,
+        protected TaskStatus $status
     ) {  
     }
 
     public static function fromArray(array $data): self
     {
-        $data = array_filter($data);
-
-        if (empty($data)) {
-            throw new Exception('An empty array of data was given to update a task');
-        }
-
-        return new self($data['title'], $data['status']);
+        return new self(
+            new Title($data['title']),
+            new Description($data['description']),
+            TaskStatus::from($data['status'])
+        );
     }
 
     public function toArray(): array
     {
         return [
-            'title' => $this->title,
-            'status' => $this->status
+            'title' => $this->title->value(),
+            'description' => $this->description->value(),
+            'status' => $this->status->value
         ];
     }
 }
