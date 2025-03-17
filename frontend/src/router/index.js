@@ -7,7 +7,14 @@ import Login from "@/views/Login.vue";
 const routes = [
     {
         path: '/',
-        component: TheWelcome
+        component: TheWelcome,
+        beforeEnter: (to, from, next) => {
+            if (isAuthenticated()) {
+                next('/dashboard');
+            }
+
+            next();
+        }
     },
     {
         path: '/dashboard',
@@ -22,7 +29,14 @@ const routes = [
     },
     {
         path: '/login',
-        component: Login
+        component: Login,
+        beforeEnter: (to, from, next) => {
+            if (isAuthenticated()) {
+                next('/dashboard');
+            }
+
+            next();
+        }
     }
 ];
 

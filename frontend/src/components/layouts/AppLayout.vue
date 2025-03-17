@@ -1,6 +1,5 @@
 <script setup>
 import NavigationMenu from './partials/NavigationMenu.vue';
-import Footer from './partials/Footer.vue';
 </script>
 
 <template>
@@ -9,11 +8,9 @@ import Footer from './partials/Footer.vue';
         <NavigationMenu />
 
         <main class="flex-grow lg:mt-[100px]">
-            <div class="space-y-10 mb-10">
+            <div>
                 <slot />
             </div>
         </main>
-
-        <Footer />
     </div>
 </template>

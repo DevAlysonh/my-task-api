@@ -1,41 +1,29 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import MobileMenu from './MobileMenu.vue';
-import { isAuthenticated } from '@/services/AuthService';
+import { isAuthenticated, logout } from '@/services/AuthService';
+import { useRouter } from 'vue-router';
 
 const showMobileMenu = ref(false);
 const activeLink = ref('home');
+const router = useRouter();
 
 const toggleMenu = () => {
     showMobileMenu.value = !showMobileMenu.value;
-};
-
-const scrollToSection = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    const navbar = document.querySelector('.navbar');
-
-    if (section && navbar) {
-        const sectionPosition = section.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = sectionPosition - 150;
-
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth',
-        });
-    }
 };
 
 const setActiveLink = (link) => {
     activeLink.value = link;
 };
 
-onMounted(() => {
-    activeLink.value = 'home';
-});
+const destroySession = () => {
+    logout();
+    window.location.href = '/';
+}
 </script>
 
 <template>
-    <nav class="navbar-gradient shadow-lg hidden lg:block fixed w-full z-10 top-0 navbar">
+    <nav class="bg-white shadow-lg hidden lg:block fixed w-full z-10 top-0 navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div id="desk-nav-menu" class="flex justify-between items-center h-16">
 
@@ -47,7 +35,7 @@ onMounted(() => {
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden lg:flex lg:flex-col space-x-8 items-end space-y-2">
+                <div class="hidden lg:flex space-x-8 items-end space-y-2 items-center">
                     <div v-if="isAuthenticated()" class="flex space-x-1">
                         <router-link to="/dashboard" class="nav-link p-2" exact-active-class="active-nav-link">
                             Dashboard
@@ -58,6 +46,11 @@ onMounted(() => {
                             Login
                         </router-link>
                     </div>
+                    <div v-if="isAuthenticated()" class="mt-auto w-full px-2 py-2">
+                        <button @click="destroySession"
+                            class="p-2 bg-blue-300 text-gray-600 font-bold w-full rounded-lg hover:bg-blue-400 hover:cursor-pointer">Logout</button>
+                    </div>
+
                 </div>
                 <!-- Desktop Menu -->
             </div>

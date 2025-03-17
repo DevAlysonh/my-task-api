@@ -1,17 +1,16 @@
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { login } from '../services/AuthService';
+import AppPage from '@/components/AppPage.vue';
 
 const email = ref('');
 const password = ref('');
-const router = useRouter();
 const errorMessage = ref('');
 
 const handleLogin = async () => {
     try {
         await login(email.value, password.value);
-        router.push('/dashboard');
+        window.location.href = '/dashboard';
     } catch (error) {
         errorMessage.value = error.response.data.message || 'Erro ao fazer login, verifique as credenciais de acesso.';
     }
@@ -19,25 +18,32 @@ const handleLogin = async () => {
 </script>
 
 <template>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form @submit.prevent="handleLogin">
-            <input type="email" v-model="email" placeholder="Email" required />
-            <input type="password" v-model="password" placeholder="Senha" required />
-            <button type="submit">Entrar</button>
-        </form>
-        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-    </div>
+    <AppPage>
+        <div class="h-[calc(100vh-100px)] flex justify-center items-center">
+            <div class="rounded-lg shadow-lg p-8 text-center space-y-8 w-6/12 bg-white">
+                <h2 class="text-gray-500 font-bold text-3xl">Login</h2>
+                <form @submit.prevent="handleLogin" class="flex flex-col justify-center gap-4">
+                    <input
+                        type="email"
+                        v-model="email"
+                        placeholder="Email"
+                        class="border-b-1 border-gray-600 focus:outline-none"
+                        required
+                    />
+                    <input
+                        type="password"
+                        v-model="password"
+                        placeholder="Senha"
+                        class="border-b-1 border-gray-600 focus:outline-none"
+                        required
+                    />
+                    <button type="submit" class="p-2 rounded-lg bg-blue-300 mt-4 hover:bg-blue-400 hover:cursor-pointer">Entrar</button>
+                </form>
+                <p v-if="errorMessage" class="text-red-800 italic">{{ errorMessage }}</p>
+            </div>
+        </div>
+    </AppPage>
 </template>
 
 <style scoped>
-.login-container {
-    width: 300px;
-    margin: auto;
-    padding: 20px;
-    text-align: center;
-}
-.error {
-    color: red;
-}
 </style>
