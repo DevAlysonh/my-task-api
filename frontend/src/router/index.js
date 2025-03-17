@@ -3,6 +3,7 @@ import TheWelcome from '../components/TheWelcome.vue';
 import Dashboard from '../views/Dashboard.vue';
 import { isAuthenticated } from "@/services/AuthService";
 import Login from "@/views/Login.vue";
+import taskService from "../services/TaskService";
 
 const routes = [
     {
@@ -19,12 +20,23 @@ const routes = [
     {
         path: '/dashboard',
         component: Dashboard,
+        props: (route) => ({tasks: route.params.tasks}),
         beforeEnter: (to, from, next) => {
-            if (!isAuthenticated()) {
-                next('/login');
+            const loadTasks = async () => {
+                if (!isAuthenticated()) {
+                    next('/login');
+                }
+    
+                try {
+                    const tasks = await taskService.getTasks();
+                    to.params.tasks = tasks;
+                    next()
+                } catch (error) {
+                    console.log(error);
+                    next(false);
+                }
             }
-
-            next();
+            loadTasks();
         }
     },
     {

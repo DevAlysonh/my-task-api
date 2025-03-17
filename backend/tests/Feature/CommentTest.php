@@ -35,7 +35,7 @@ class CommentTest extends TestCase
         $response->assertStatus(Response::HTTP_CREATED);
 
         $data = $response->getData();
-        $this->assertEquals($data->user_id, $this->user->id);
+        $this->assertEquals($data->user_name, $this->user->name);
         $this->assertEquals($data->task_id, $this->task->id);
         $this->assertEquals($data->content, $arr['content']);
     }

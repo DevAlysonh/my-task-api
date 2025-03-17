@@ -12,6 +12,7 @@ use Architecture\Application\Task\Dto\TaskUpdateDto;
 use Architecture\Application\Task\TaskService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class TaskController extends Controller
 {
@@ -27,13 +28,23 @@ class TaskController extends Controller
             request()->get('created_at')
         );
 
+        $pagination = [
+            'current_page' => null,
+            'last_page' => null,
+        ];
+
+        if ($tasks instanceof LengthAwarePaginator) {
+            $pagination['current_page'] = $tasks->currentPage();
+            $pagination['last_page'] = $tasks->lastPage();
+        }
+
         $code = $tasks->count() ? Response::HTTP_OK : Response::HTTP_NO_CONTENT;
 
-        return response()->json([
-            'tasks' => TaskResource::collection($tasks),
-            'current_page' => $tasks->currentPage(),
-            'last_page' => $tasks->lastPage(), 
-        ], $code);
+        return response()->json(array_merge(
+                ['tasks' => TaskResource::collection($tasks)],
+                $pagination
+            )
+        , $code);
     }
 
     public function store(CreateTask $request): JsonResponse
