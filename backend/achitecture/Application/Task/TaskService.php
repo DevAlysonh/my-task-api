@@ -12,7 +12,7 @@ use Illuminate\Validation\UnauthorizedException;
 
 class TaskService
 {
-    public const RESOURCES_PER_PAGE = 5;
+    public const RESOURCES_PER_PAGE = null;
 
     public function __construct(protected Repository $repository)
     { 
