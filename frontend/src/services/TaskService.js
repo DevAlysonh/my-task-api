@@ -52,6 +52,26 @@ const taskService = {
         }
     },
 
+    async createTask(taskData) {
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+            throw new Error('Token de autenticação não encontrado');
+        }
+
+        try {
+            const response = await axios.post(`${API_URL}/tasks/`, taskData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+
 
     async addComment(taskId, commentContent) {
         try {
