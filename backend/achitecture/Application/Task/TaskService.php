@@ -57,7 +57,7 @@ class TaskService
                 )
                 ->where('user_id', auth()->user()->id)
                 ->when($status, fn ($q) => $q->where('status', $status))
-                ->when($createdAt, fn ($q) => $q->where('created_at', $createdAt))
+                ->when($createdAt, fn ($q) => $q->whereDate('created_at', $createdAt))
                 ->with('comments');
         });
     }
