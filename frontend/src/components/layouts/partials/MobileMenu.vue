@@ -40,8 +40,8 @@ const destroySession = () => {
                     </router-link>
                 </div>
 
-                <div v-if="isAuthenticated()" class="mt-auto w-full px-2 py-2">
-                    <button @click="destroySession()" class="p-3 text-gray-600 font-bold bg-blue-300 w-full rounded-lg hover:bg-blue-400 hover:cursor-pointer">Logout</button>
+                <div v-if="isAuthenticated()" class="mt-auto w-full px-2 py-2 text-center">
+                    <button @click="destroySession()" class="primary-button">Logout</button>
                 </div>
             </div>
         </transition>

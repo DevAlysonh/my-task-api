@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+
+.primary-button {
+    @apply p-2 bg-blue-300 text-gray-600 font-bold w-max
+        rounded-lg hover:bg-blue-400 hover:cursor-pointer
+}
